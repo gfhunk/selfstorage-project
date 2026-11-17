@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="catalog-section">
+    <div class="container">
+        <h1>Каталог боксов</h1>
+        <p>Выберите бокс нужного размера.</p>
+
+        <div class="catalog-layout">
+            <aside class="filters">
+                <h2>Фильтры</h2>
+                <div class="filter-group">
+                    <label>Площадь</label>
+                    <select><option>Выберите</option></select>
+                </div>
+            </aside>
+
+            <div class="catalog-grid">
+                {% for box in page_obj %}
+                <article class="box-card">
+                    <img src="{% static 'images/hero-bg.jpg' %}" alt="Бокс {{ box.number }}" width="300" height="200" loading="lazy">
+                    <div class="box-card__content">
+                        <p class="status">Свободен сейчас</p>
+                        <h3>Бокс {{ box.number }}</h3>
+                        <p>Объем: {{ box.volume|floatformat:2 }} м³</p>
+
+                        <div class="box-card__footer">
+                            <span class="price">от 3 500 руб./мес.</span>
+                            <a href="{% url 'box_detail' box.id %}" class="btn btn--primary">Подробнее</a>
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                <p>Свободных боксов пока нет.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="pagination" style="margin-top: 40px; display: flex; gap: 16px; align-items: center;">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn">Назад</a>
+            {% endif %}
+            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn">Вперед</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

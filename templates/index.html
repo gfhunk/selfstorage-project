@@ -1,33 +1,7 @@
+{% extends 'base.html%}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
 
-    <header class="header">
-        <div class="container header__container">
-            <div class="logo">
-                <img src="{% static 'images/logo.svg' %}" alt="Логотип SelfStorage" width="40" height="40">
-                <span>SelfStorage</span>
-            </div>
-            <nav class="nav">
-                <a href="{% url 'home' %}" class="nav__link">Каталог</a>
-                <a href="#" class="nav__link">Калькулятор</a>
-                <a href="#" class="nav__link">Войти</a>
-            </nav>
-            <button class="burger" aria-label="Открыть меню">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </header>
-
-    <main>
+{% block content %}
         <section class="hero" style="background-image: url('{% static 'images/hero-bg.jpg' %}');">
             <div class="container hero__container">
                 <h1 class="hero__title">Место для ваших вещей</h1>
@@ -116,37 +90,6 @@
                 </div>
             </div>
         </section>
-    </main>
+{% endblock %}
 
 
-    <footer class="footer">
-        <div class="container footer__container">
-            <div class="footer__brand">
-                <div class="logo logo--white">
-                    <img src="{% static 'images/logo.svg' %}" alt="Логотип SelfStorage" width="40" height="40">
-                    <span>SelfStorage</span>
-                </div>
-            </div>
-            <div class="footer__links">
-                <h4>Разделы</h4>
-                <a href="{% url 'home' %}">Каталог</a>
-                <a href="#">Калькулятор</a>
-                <a href="#">Как это работает</a>
-            </div>
-            <div class="footer__links">
-                <h4>Помощь</h4>
-                <a href="#">Вопросы и ответы</a>
-                <a href="#">Контакты</a>
-                <a href="#">Документы</a>
-            </div>
-            <div class="footer__contacts">
-                <h4>Контакты</h4>
-                <a href="tel:+79990000000">+7 (999) 000-00-00</a>
-                <a href="mailto:mail@example.ru">mail@example.ru</a>
-            </div>
-        </div>
-    </footer>
-
-    <script src="{% static 'js/main.js' %}"></script>
-</body>
-</html>
