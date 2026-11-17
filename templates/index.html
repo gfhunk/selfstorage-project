@@ -6,7 +6,7 @@
             <div class="container hero__container">
                 <h1 class="hero__title">Место для ваших вещей</h1>
                 <p class="hero__subtitle">Отапливаемые боксы под круглосуточной охраной. Ваши вещи в безопасности - даже когда вас нет в городе.</p>
-                <a href="#" class="btn btn--primary">Подобрать</a>
+                <a href="{% url 'catalog' %}" class="btn btn--primary">Подобрать</a>
             </div>
         </section>
 
@@ -28,7 +28,7 @@
                         <label for="term">Срок</label>
                         <select id="term"><option>Выберите</option></select>
                     </div>
-                    <button type="button" class="btn btn--primary">Подобрать</button>
+                    <a href="{% url 'calculator' %}" class="btn btn--primary">Подобрать</a>
                 </form>
             </div>
         </section>
