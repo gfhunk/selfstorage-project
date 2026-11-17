@@ -10,41 +10,73 @@
         <div class="catalog-layout">
             <aside class="filters">
                 <h2>Фильтры</h2>
-                <div class="filter-group">
-                    <label>Площадь</label>
-                    <select><option>Выберите</option></select>
-                </div>
+                <form method="get" action="{% url 'catalog' %}">
+                    <div class="filter-group">
+                        <label>Район</label>
+                        <select name="district"><option>Любой</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Площадь</label>
+                        <select name="area"><option>Любая</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Этаж</label>
+                        <select name="floor"><option>Любой</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Цена до</label>
+                        <input type="number" name="price" placeholder="руб.">
+                    </div>
+                    <label style="display:flex; gap:8px; margin-bottom: 16px;">
+                        <input type="checkbox" name="available" checked> Только доступные сейчас
+                    </label>
+                    <button type="submit" class="btn btn--primary">Применить</button>
+                    <a href="{% url 'catalog' %}" style="display:block; text-align:center; margin-top:10px;">Сбросить фильтры</a>
+                </form>
             </aside>
 
-            <div class="catalog-grid">
-                {% for box in page_obj %}
-                <article class="box-card">
-                    <img src="{% static 'images/hero-bg.jpg' %}" alt="Бокс {{ box.number }}" width="300" height="200" loading="lazy">
-                    <div class="box-card__content">
-                        <p class="status">Свободен сейчас</p>
-                        <h3>Бокс {{ box.number }}</h3>
-                        <p>Объем: {{ box.volume|floatformat:2 }} м³</p>
+            <div class="catalog-main">
+                <div class="catalog-header" style="display:flex; justify-content:space-between; background:#C0CCEB; padding:16px; border-radius:8px; margin-bottom:24px;">
+                    <span>Найдено {{ page_obj.paginator.count }} боксов</span>
+                    <select><option>Сортировка: по умолчанию</option></select>
+                </div>
 
-                        <div class="box-card__footer">
-                            <span class="price">от 3 500 руб./мес.</span>
-                            <a href="{% url 'box_detail' box.id %}" class="btn btn--primary">Подробнее</a>
+                <div class="catalog-grid">
+                    {% for box in page_obj %}
+                    <article class="box-card">
+                        <img src="{% static 'images/box-placeholder.jpg' %}" alt="Бокс {{ box.number }}" width="300" height="200" loading="lazy">
+                        <div class="box-card__content">
+                            <p class="status" style="color:#198754; font-size:14px;">Свободен сейчас</p>
+                            <h3>Бокс {{ box.number }}</h3>
+                            <p>Описание</p>
+                            <div class="box-card__footer">
+                                <span class="price">от 3 500 руб./мес.</span>
+                                <span>{{ box.volume|floatformat:2 }} м³</span>
+                            </div>
+                            <a href="{% url 'box_detail' box.id %}" class="btn btn--primary" style="margin-top:16px; width:100%;">Подробнее</a>
                         </div>
-                    </div>
-                </article>
-                {% empty %}
-                <p>Свободных боксов пока нет.</p>
-                {% endfor %}
-            </div>
-        </div>
+                    </article>
+                    {% endfor %}
+                </div>
 
-        <div class="pagination" style="margin-top: 40px; display: flex; gap: 16px; align-items: center;">
-            {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}" class="btn">Назад</a>
-            {% endif %}
-            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="btn">Вперед</a>
-            {% endif %}
+                <div class="pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 40px;">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">←</a>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <span class="page-btn page-btn--active">{{ num }}</span>
+                        {% else %}
+                            <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="page-btn">→</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </section>

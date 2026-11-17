@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="display:flex; justify-content:center; padding: 80px 0;">
+    <div class="auth-box" style="width: 500px; background: #C0CCEB; border-radius: 8px; overflow:hidden;">
+        <div style="display:flex;">
+            <a href="{% url 'register' %}" style="width:50%; text-align:center; padding:20px; text-decoration:none; color:#212529;">Регистрация</a>
+            <div style="width:50%; text-align:center; padding:20px; background:var(--primary); color:white;">Вход</div>
+        </div>
+
+        <form method="post" style="padding: 40px;">
+            {% csrf_token %}
+            <h2>Войти в аккаунт</h2>
+            <p>Введите телефон и пароль.</p>
+
+            <div class="filter-group" style="margin-top:20px;">
+                <label>Логин (Имя пользователя)</label>
+                <input type="text" name="username" required style="width:100%; padding:12px; border:none; border-radius:4px;">
+            </div>
+            <div class="filter-group" style="margin-top:20px;">
+                <label>Пароль</label>
+                <input type="password" name="password" required style="width:100%; padding:12px; border:none; border-radius:4px;">
+            </div>
+
+            <button type="submit" class="btn btn--primary" style="width:100%; margin-top:30px;">Войти</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

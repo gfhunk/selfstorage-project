@@ -29,3 +29,6 @@ def profile(request):
 
 def about(request):
     return render(request, 'about.html', {'title': 'О компании'})
+
+def calculator(request):
+    return render(request, 'calculator.html', {'title': 'Калькулятор размера'})
