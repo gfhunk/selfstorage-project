@@ -1,7 +1,7 @@
 {% load static %}
 {% for box in page_obj %}
 <article class="box-card">
-    <img src="{% static 'images/box-placeholder.jpg' %}" alt="Бокс {{ box.number }}">
+    <img src="{% static 'images/box-placeholder.png' %}" alt="Бокс {{ box.number }}">
     <div class="box-card__content">
 
         {% if box.status == 'free' %}

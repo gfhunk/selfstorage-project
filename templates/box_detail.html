@@ -7,15 +7,15 @@
 
         <div style="flex: 2;">
             <div class="slider-container" style="position: relative; border-radius: 8px; overflow: hidden; margin-bottom: 20px;">
-                <img id="main-image" src="{% static 'images/box-placeholder.jpg' %}" alt="Фото бокса" style="width: 100%; display: block;">
+                <img id="main-image" src="{% static 'images/box-placeholder.png' %}" alt="Фото бокса" style="width: 100%; display: block;">
 
                 <button onclick="changeSlide(-1)" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; padding: 10px; cursor: pointer; border-radius: 50%;">❮</button>
                 <button onclick="changeSlide(1)" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; padding: 10px; cursor: pointer; border-radius: 50%;">❯</button>
             </div>
 
             <div style="display: flex; gap: 16px; margin-bottom: 40px;">
-                <img src="{% static 'images/box-placeholder.jpg' %}" onclick="setSlide(0)" alt="Фото 1" style="width: 30%; border-radius: 8px; cursor: pointer;">
-                <img src="{% static 'images/box1.jpg' %}" onclick="setSlide(1)" alt="Фото 2" style="width: 30%; border-radius: 8px; cursor: pointer;">
+                <img src="{% static 'images/box-placeholder.png' %}" onclick="setSlide(0)" alt="Фото 1" style="width: 30%; border-radius: 8px; cursor: pointer;">
+                <img src="{% static 'images/box1.png' %}" onclick="setSlide(1)" alt="Фото 2" style="width: 30%; border-radius: 8px; cursor: pointer;">
             </div>
 
             <h2 style="font-size: 32px; margin-bottom: 16px;">О боксе</h2>
@@ -73,8 +73,8 @@
 
 <script>
     const images = [
-        "{% static 'images/box-placeholder.jpg' %}",
-        "{% static 'images/box1.jpg' %}"
+        "{% static 'images/box-placeholder.png' %}",
+        "{% static 'images/box1.png' %}"
     ];
     let currentIndex = 0;
 
