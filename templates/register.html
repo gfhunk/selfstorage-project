@@ -11,10 +11,11 @@
 
         <form method="post" style="padding: 40px;">
     {% csrf_token %}
-    <h2>Создать аккаунт</h2>
+    <h1 style="font-size: 24px; margin-bottom: 8px;">Создать аккаунт</h1>
+    <p>Заполните данные для регистрации</p>
 
     {% for field in form %}
-        <div class="filter-group" style="margin-top:20px;">
+        <div style="margin-top: 20px;">
             <label>{{ field.label }}</label>
             {{ field }}
             {% if field.errors %}

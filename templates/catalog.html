@@ -2,78 +2,82 @@
 {% load static %}
 
 {% block content %}
-<section class="catalog-section">
+<section class="catalog-section" style="padding-top: 60px; padding-bottom: 60px;">
     <div class="container">
-        <h1>Каталог боксов</h1>
-        <p>Выберите бокс нужного размера.</p>
+        <h1 style="margin-bottom: 8px;">Каталог боксов</h1>
+        <p style="margin-bottom: 32px; color: var(--text-muted);">Выберите бокс нужного размера.</p>
 
         <div class="catalog-layout">
             <aside class="filters">
-                <h2>Фильтры</h2>
-                <form method="get" action="{% url 'catalog' %}">
+                <h2 style="margin-bottom: 24px;">Фильтры</h2>
+
+                <form method="get" action="{% url 'catalog' %}" id="filter-form">
                     <div class="filter-group">
-                        <label>Район</label>
-                        <select name="district"><option>Любой</option></select>
+                        <label>Поиск по номеру</label>
+                        <input type="text" name="q" value="{{ current_q|default:'' }}" class="form-input" placeholder="Например, A-101">
                     </div>
+
                     <div class="filter-group">
                         <label>Площадь</label>
-                        <select name="area"><option>Любая</option></select>
+                        <select name="area" class="form-input">
+                            <option value="">Любая</option>
+                            <option value="1" {% if current_area == '1' %}selected{% endif %}>1 м² (маленькая)</option>
+                            <option value="3" {% if current_area == '3' %}selected{% endif %}>3 м² (средняя)</option>
+                            <option value="5" {% if current_area == '5' %}selected{% endif %}>5 м² (большая)</option>
+                            <option value="10" {% if current_area == '10' %}selected{% endif %}>10 м² (огромная)</option>
+                            <option value="20" {% if current_area == '20' %}selected{% endif %}>20 м² (гараж)</option>
+                        </select>
                     </div>
+
                     <div class="filter-group">
                         <label>Этаж</label>
-                        <select name="floor"><option>Любой</option></select>
+                        <select name="floor" class="form-input">
+                            <option value="">Любой</option>
+                            <option value="1" {% if current_floor == '1' %}selected{% endif %}>1 этаж</option>
+                            <option value="2" {% if current_floor == '2' %}selected{% endif %}>2 этаж</option>
+                            <option value="3" {% if current_floor == '3' %}selected{% endif %}>3 этаж</option>
+                        </select>
                     </div>
-                    <div class="filter-group">
-                        <label>Цена до</label>
-                        <input type="number" name="price" placeholder="руб.">
-                    </div>
-                    <label style="display:flex; gap:8px; margin-bottom: 16px;">
-                        <input type="checkbox" name="available" checked> Только доступные сейчас
+
+                    <label style="display:flex; gap:8px; margin-bottom: 24px; font-size: 14px;">
+                        <input type="checkbox" name="available" {% if current_available == 'on' %}checked{% endif %}> Только доступные сейчас
                     </label>
-                    <button type="submit" class="btn btn--primary">Применить</button>
-                    <a href="{% url 'catalog' %}" style="display:block; text-align:center; margin-top:10px;">Сбросить фильтры</a>
+
+                    <button type="submit" class="btn btn--primary" style="width: 100%;">Применить</button>
+                    <a href="{% url 'catalog' %}" style="display:block; text-align:center; margin-top:16px; color: var(--text-main); text-decoration: underline;">Сбросить фильтры</a>
                 </form>
             </aside>
 
             <div class="catalog-main">
-                <div class="catalog-header" style="display:flex; justify-content:space-between; background:#C0CCEB; padding:16px; border-radius:8px; margin-bottom:24px;">
-                    <span>Найдено {{ page_obj.paginator.count }} боксов</span>
-                    <select><option>Сортировка: по умолчанию</option></select>
+                <div class="catalog-header">
+                    <span id="search-count">Найдено {{ page_obj.paginator.count }} боксов</span>
+
+                    <select name="sort" form="filter-form" onchange="document.getElementById('filter-form').submit();" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                        <option value="">Сортировка: по умолчанию</option>
+                        <option value="asc" {% if current_sort == 'asc' %}selected{% endif %}>По объему (по возрастанию)</option>
+                        <option value="desc" {% if current_sort == 'desc' %}selected{% endif %}>По объему (по убыванию)</option>
+                    </select>
                 </div>
 
-                <div class="catalog-grid">
-                    {% for box in page_obj %}
-                    <article class="box-card">
-                        <img src="{% static 'images/box-placeholder.jpg' %}" alt="Бокс {{ box.number }}" width="300" height="200" loading="lazy">
-                        <div class="box-card__content">
-                            <p class="status" style="color:#198754; font-size:14px;">Свободен сейчас</p>
-                            <h3>Бокс {{ box.number }}</h3>
-                            <p>Описание</p>
-                            <div class="box-card__footer">
-                                <span class="price">от 3 500 руб./мес.</span>
-                                <span>{{ box.volume|floatformat:2 }} м³</span>
-                            </div>
-                            <a href="{% url 'box_detail' box.id %}" class="btn btn--primary" style="margin-top:16px; width:100%;">Подробнее</a>
-                        </div>
-                    </article>
-                    {% endfor %}
+                <div class="catalog-grid" id="catalog-container">
+                    {% include 'includes/box_cards.html' %}
                 </div>
 
-                <div class="pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 40px;">
+                <div class="pagination">
                     {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">←</a>
+                        <a href="?page={{ page_obj.previous_page_number }}{% if current_q %}&q={{ current_q }}{% endif %}{% if current_area %}&area={{ current_area }}{% endif %}{% if current_floor %}&floor={{ current_floor }}{% endif %}{% if current_available %}&available=on{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}" class="page-btn">←</a>
                     {% endif %}
 
                     {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
                             <span class="page-btn page-btn--active">{{ num }}</span>
                         {% else %}
-                            <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+                            <a href="?page={{ num }}{% if current_q %}&q={{ current_q }}{% endif %}{% if current_area %}&area={{ current_area }}{% endif %}{% if current_floor %}&floor={{ current_floor }}{% endif %}{% if current_available %}&available=on{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}" class="page-btn">{{ num }}</a>
                         {% endif %}
                     {% endfor %}
 
                     {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}" class="page-btn">→</a>
+                        <a href="?page={{ page_obj.next_page_number }}{% if current_q %}&q={{ current_q }}{% endif %}{% if current_area %}&area={{ current_area }}{% endif %}{% if current_floor %}&floor={{ current_floor }}{% endif %}{% if current_available %}&available=on{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}" class="page-btn">→</a>
                     {% endif %}
                 </div>
             </div>
@@ -81,3 +85,26 @@
     </div>
 </section>
 {% endblock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('input[name="q"]');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value;
+                const container = document.getElementById('catalog-container');
+
+                container.innerHTML = '<p style="font-size: 18px;">Поиск...</p>';
+
+                fetch(`/api/catalog/?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        container.innerHTML = data.html;
+                        document.getElementById('search-count').innerText = `Найдено ${data.count} боксов`;
+                    })
+                    .catch(error => console.error('Ошибка:', error));
+            });
+        }
+    });
+</script>

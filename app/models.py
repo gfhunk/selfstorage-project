@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.core.validators import MinValueValidator
 
 
@@ -95,6 +97,7 @@ class Contract(models.Model):
     start_date = models.DateField(verbose_name="Дата начала")
     end_date = models.DateField(null=True, blank=True, verbose_name="Дата окончания")
     is_active = models.BooleanField(default=True, verbose_name="Активен")
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Итоговая стоимость")
 
     class Meta:
         verbose_name = "Договор"
@@ -120,3 +123,13 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Платёж {self.amount} по договору {self.contract.id}"
+
+@receiver(post_save, sender=User)
+def create_client_profile(sender, instance, created, **kwargs):
+    if created:
+        Client.objects.create(user=instance, phone="+7(000)000-00-00")
+
+@receiver(post_save, sender=User)
+def save_client_profile(sender, instance, **kwargs):
+    if hasattr(instance, 'client_profile'):
+        instance.client_profile.save()

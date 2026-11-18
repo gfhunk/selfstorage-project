@@ -5,40 +5,47 @@
 <section class="container" style="padding-top: 60px; padding-bottom: 60px;">
     <h1 style="margin-bottom: 40px;">Личный кабинет</h1>
 
-    <div class="page-layout">
-        <div class="sidebar-layout">
-            <a href="#" style="background: var(--primary); color: white;">Мои боксы</a>
-            <a href="#">Личные данные</a>
-            <a href="#">Способы оплаты</a>
-            <a href="{% url 'login' %}">Выйти</a>
+    <div class="page-layout" style="display: flex; gap: 40px;">
+
+        <div class="sidebar-layout" style="flex: 1; background: var(--bg-card); border-radius: 8px; height: fit-content;">
+            <a href="{% url 'profile' %}" style="background: var(--primary); color: white;">Мои боксы</a>
+            <a href="{% url 'profile_data' %}">Личные данные</a>
+            <a href="{% url 'payment_history' %}">Способы оплаты</a>
+            <button onclick="document.getElementById('logoutModal').style.display='flex'" style="width: 100%; text-align: left; padding: 20px; background: none; border: none; border-bottom: 1px solid #999; font-size: 16px; cursor: pointer; color: var(--text-main);">Выйти</button>
         </div>
 
-        <div class="main-content-layout" style="flex: 3;">
+        <div style="flex: 3;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                 <h2>Мои боксы</h2>
                 <a href="{% url 'catalog' %}" class="btn btn--primary" style="padding: 12px 24px;">Добавить бокс</a>
             </div>
 
-            <div style="background: var(--bg-card); padding: 24px; border-radius: 8px; margin-bottom: 40px;">
-                <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
-                    <img src="{% static 'images/box-placeholder.jpg' %}" alt="Бокс" style="width: 120px; border-radius: 8px;">
-                    <div style="flex: 1;">
-                        <p style="color: var(--success); font-size: 14px; margin-bottom: 8px;">Активен</p>
-                        <h3 style="margin-bottom: 8px;">Бокс A-117</h3>
-                        <p style="font-size: 14px; margin-bottom: 4px;">Адрес склада</p>
-                        <p style="font-size: 14px;">Аренда до: 15 апреля 2026</p>
-                    </div>
-                    <div style="text-align: right; min-width: 150px;">
-                        <p style="font-size: 14px; margin-bottom: 4px;">Следующий платёж</p>
-                        <p style="font-weight: bold; font-size: 18px;">7 500 руб.</p>
-                        <p style="font-size: 14px;">15 марта</p>
-                    </div>
-                </div>
-                <hr style="border: 0; border-top: 1px solid #999; margin: 20px 0;">
-                <a href="#" class="btn btn--primary" style="padding: 12px 24px;">Продлить аренду</a>
-            </div>
+            {% for contract in contracts %}
+<div style="background: var(--bg-card); padding: 24px; border-radius: 8px; margin-bottom: 24px;">
+    <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+        <img src="{% static 'images/box-placeholder.jpg' %}" alt="Бокс" style="width: 120px; border-radius: 8px;">
+        <div style="flex: 1;">
+            <p style="color: var(--success); font-size: 14px; margin-bottom: 8px;">Активен</p>
+            <h3 style="margin-bottom: 8px;">Бокс {{ contract.box.number }}</h3>
+            <p style="font-size: 14px; margin-bottom: 4px;">Объем: {{ contract.box.volume }} м³</p>
+            <p style="font-size: 14px;">Аренда до: {{ contract.end_date|date:"d E Y" }}</p>
+        </div>
+        <div style="text-align: right; min-width: 150px;">
+             <p style="font-size: 14px; margin-bottom: 4px;">Стоимость</p>
+             <p style="font-weight: bold; font-size: 18px;">{{ contract.total_price|floatformat:0 }} руб.</p>
+        </div>
+    </div>
+    <hr style="border: 0; border-top: 1px solid #999; margin: 20px 0;">
+    <a href="{% url 'checkout' contract.box.id %}" class="btn btn--primary" style="padding: 12px 24px;">Продлить аренду</a>
+</div>
+{% empty %}
+<div style="text-align: center; padding: 40px;">
+    <h3>У вас пока нет арендованных боксов</h3>
+    <a href="{% url 'catalog' %}" class="btn btn--primary" style="margin-top: 20px;">Перейти в каталог</a>
+</div>
+{% endfor %}
 
-            <h2 style="margin-bottom: 24px;">История операций</h2>
+            <h2 style="margin-bottom: 24px; margin-top: 40px;">История операций</h2>
             <div style="background: var(--bg-card); border-radius: 8px; overflow: hidden;">
                 <div style="display: flex; background: var(--primary); color: white; padding: 16px; font-weight: bold;">
                     <div style="flex: 1;">Дата</div>
@@ -46,14 +53,26 @@
                     <div style="flex: 1;">Сумма</div>
                     <div style="flex: 1;">Статус</div>
                 </div>
+                {% for contract in contracts %}
                 <div style="display: flex; padding: 16px; border-bottom: 1px solid #999;">
-                    <div style="flex: 1;">00.00.2026</div>
-                    <div style="flex: 2;">Оплата аренды</div>
-                    <div style="flex: 1;">7 500 руб.</div>
-                    <div style="flex: 1;">Оплачено</div>
+                    <div style="flex: 1;">{{ contract.start_date|date:"d.m.Y" }}</div>
+                    <div style="flex: 2;">Оплата аренды (Бокс {{ contract.box.number }})</div>
+                    <div style="flex: 1;">{{ contract.total_price|floatformat:0 }} руб.</div>
+                    <div style="flex: 1; color: var(--success);">Оплачено</div>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 </section>
+
+<div id="logoutModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;">
+    <div style="background: var(--bg-card); padding: 40px; border-radius: 12px; text-align: center; width: 400px;">
+        <h2 style="margin-bottom: 24px;">Выйти из аккаунта?</h2>
+        <div style="display: flex; gap: 16px; justify-content: center;">
+            <a href="{% url 'logout' %}" class="btn btn--primary" style="width: 120px;">Да</a>
+            <button onclick="document.getElementById('logoutModal').style.display='none'" class="btn" style="width: 120px; background: white;">Отмена</button>
+        </div>
+    </div>
+</div>
 {% endblock %}

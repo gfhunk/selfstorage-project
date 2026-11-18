@@ -15,21 +15,45 @@
             <div class="container">
                 <h2 class="section-title">Какой бокс вам нужен?</h2>
                 <p class="section-subtitle">Быстрый подбор</p>
-                <form class="calc-form">
-                    <div class="calc-form__group">
-                        <label for="what">Что храните</label>
-                        <select id="what"><option>Выберите</option></select>
-                    </div>
-                    <div class="calc-form__group">
-                        <label for="area">Площадь</label>
-                        <select id="area"><option>Выберите</option></select>
-                    </div>
-                    <div class="calc-form__group">
-                        <label for="term">Срок</label>
-                        <select id="term"><option>Выберите</option></select>
-                    </div>
-                    <a href="{% url 'calculator' %}" class="btn btn--primary">Подобрать</a>
-                </form>
+                <form class="calc-form" action="{% url 'calculator' %}" method="GET">
+    <div class="calc-form__group">
+        <label for="what">Что храните</label>
+        <select id="what" name="what">
+            <option value="">Выберите</option>
+            <option value="Коробки">Коробки</option>
+            <option value="Мебель">Мебель</option>
+            <option value="Техника">Техника</option>
+            <option value="Шины">Шины</option>
+            <option value="Спортинвентарь">Спортинвентарь</option>
+            <option value="Другое">Другое</option>
+        </select>
+    </div>
+
+    <div class="calc-form__group">
+        <label for="area">Площадь</label>
+        <select id="area" name="area">
+            <option value="">Выберите</option>
+            <option value="1">1 м² (маленькая)</option>
+            <option value="3">3 м² (средняя)</option>
+            <option value="5">5 м² (большая)</option>
+            <option value="10">10 м² (огромная)</option>
+            <option value="20">20 м² (гараж)</option>
+        </select>
+    </div>
+
+    <div class="calc-form__group">
+        <label for="term">Срок</label>
+        <select id="term" name="term">
+            <option value="">Выберите</option>
+            <option value="1">1 месяц</option>
+            <option value="3">3 месяца</option>
+            <option value="6">6 месяцев</option>
+            <option value="12">1 год</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn--primary">Подобрать</button>
+</form>
             </div>
         </section>
 

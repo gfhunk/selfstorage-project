@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="container" style="padding-top: 60px; padding-bottom: 60px;">
+    <h1 style="margin-bottom: 40px;">Личный кабинет</h1>
+
+    <div class="page-layout" style="display: flex; gap: 40px;">
+
+        <div class="sidebar-layout" style="flex: 1; background: var(--bg-card); border-radius: 8px; height: fit-content;">
+            <a href="{% url 'profile' %}">Мои боксы</a>
+            <a href="{% url 'profile_data' %}" style="background: var(--primary); color: white;">Личные данные</a>
+            <a href="{% url 'payment_history' %}">Способы оплаты</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+        </div>
+
+        <div style="flex: 3;">
+            <h2 style="margin-bottom: 24px;">Личные данные</h2>
+
+            <div style="background: var(--bg-card); padding: 32px; border-radius: 8px; display: flex; gap: 40px; align-items: center;">
+                <div style="width: 120px; height: 120px; background: #E2E8F0; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 12px; font-size: 24px;">{{ request.user.username }}</h3>
+                    <p style="margin-bottom: 8px; font-size: 16px;">
+                        <span style="color: #666;">Номер телефона:</span>
+                        <strong>{{ request.user.client_profile.phone }}</strong>
+                    </p>
+                    <p style="font-size: 16px;">
+                        <span style="color: #666;">Почта:</span>
+                        <strong>
+                            {% if request.user.email %}
+                                {{ request.user.email }}
+                            {% else %}
+                                Не указана
+                            {% endif %}
+                        </strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

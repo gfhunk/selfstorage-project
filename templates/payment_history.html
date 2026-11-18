@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="container" style="padding-top: 60px; padding-bottom: 60px;">
+    <h1 style="margin-bottom: 40px;">Личный кабинет</h1>
+    <div class="page-layout" style="display: flex; gap: 40px;">
+        <div class="sidebar-layout" style="flex: 1; background: var(--bg-card); border-radius: 8px; height: fit-content;">
+            <a href="{% url 'profile' %}">Мои боксы</a>
+            <a href="{% url 'profile_data' %}">Личные данные</a>
+            <a href="{% url 'payment_history' %}" style="background: var(--primary); color: white;">Способы оплаты</a>
+            <a href="#">Выйти</a>
+        </div>
+
+        <div style="flex: 3;">
+            <h2 style="margin-bottom: 24px;">Способы оплаты</h2>
+            <div style="background: var(--bg-card); padding: 32px; border-radius: 8px; text-align: center; color: #666;">
+                <p>Здесь будут отображаться ваши сохраненные карты.</p>
+                <p>Пока что у вас нет привязанных карт.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

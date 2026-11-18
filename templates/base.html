@@ -15,11 +15,23 @@
                 <span>SelfStorage</span>
             </a>
             <nav class="nav">
+    <a href="{% url 'catalog' %}" class="nav__link">Каталог</a>
+    <a href="{% url 'calculator' %}" class="nav__link">Калькулятор</a>
 
-                <a href="{% url 'catalog' %}" class="nav__link">Каталог</a>
-                <a href="{% url 'calculator' %}" class="nav__link">Калькулятор</a>
-                <a href="{% url 'login' %}" class="nav__link">Войти</a>
-            </nav>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" class="nav__link nav__profile" style="display: flex; align-items: center; gap: 8px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>{{ user.username }}</span>
+        </a>
+    {% else %}
+
+        <a href="{% url 'login' %}" class="nav__link">Войти</a>
+    {% endif %}
+</nav>
             <button class="burger"><span></span><span></span><span></span></button>
         </div>
     </header>
@@ -38,22 +50,22 @@
             </div>
         </div>
         <div class="footer__links">
-            <h4>Разделы</h4>
-            <a href="{% url 'catalog' %}">Каталог</a>
-            <a href="calculator">Калькулятор</a>
-            <a href="index.html">Как это работает</a>
-        </div>
-        <div class="footer__links">
-            <h4>Помощь</h4>
-            <a href="#">Вопросы и ответы</a>
-            <a href="#">Контакты</a>
-            <a href="#">Документы</a>
-        </div>
-        <div class="footer__contacts">
-            <h4>Контакты</h4>
-            <a href="tel:+79990000000">+7 (999) 000-00-00</a>
-            <a href="mailto:mail@example.ru">mail@example.ru</a>
-        </div>
+    <p style="font-weight: bold; font-size: 18px; margin-bottom: 12px;">Разделы</p>
+    <a href="{% url 'catalog' %}">Каталог</a>
+    <a href="{% url 'calculator' %}">Калькулятор</a>
+    <a href="#">Как это работает</a>
+</div>
+<div class="footer__links">
+    <p style="font-weight: bold; font-size: 18px; margin-bottom: 12px;">Помощь</p>
+    <a href="#">Вопросы и ответы</a>
+    <a href="#">Контакты</a>
+    <a href="#">Документы</a>
+</div>
+<div class="footer__contacts">
+    <p style="font-weight: bold; font-size: 18px; margin-bottom: 12px;">Контакты</p>
+    <a href="tel:+79990000000">+7 (999) 000-00-00</a>
+    <a href="mailto:mail@example.ru">mail@example.ru</a>
+</div>
     </div>
 </footer>
 

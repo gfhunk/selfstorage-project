@@ -11,7 +11,8 @@
 
         <form method="post" style="padding: 40px;">
     {% csrf_token %}
-    <h2>Войти в аккаунт.</h2>
+    <h1>Войти в аккаунт.</h1>
+            <p>Введите телефон и пароль.</p>
 
     {% for field in form %}
         <div class="filter-group" style="margin-top:20px;">

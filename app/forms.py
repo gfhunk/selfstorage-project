@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Client
 
 
 class UserRegisterForm(forms.ModelForm):
@@ -14,12 +13,6 @@ class UserRegisterForm(forms.ModelForm):
             'username': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Введите имя'}),
             'email': forms.EmailInput(attrs={'class': 'form-input', 'placeholder': 'mail@example.ru'}),
         }
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Пользователь с такой почтой уже существует")
-        return email
 
 
 class UserLoginForm(forms.Form):

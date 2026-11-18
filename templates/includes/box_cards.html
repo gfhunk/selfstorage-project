@@ -1,0 +1,32 @@
+{% load static %}
+{% for box in page_obj %}
+<article class="box-card">
+    <img src="{% static 'images/box-placeholder.jpg' %}" alt="Бокс {{ box.number }}">
+    <div class="box-card__content">
+
+        {% if box.status == 'free' %}
+            <p class="status" style="color: #198754; font-size: 14px; font-weight: bold;">Свободен сейчас</p>
+        {% elif box.status == 'busy' %}
+            <p class="status" style="color: #DC3545; font-size: 14px; font-weight: bold;">Занят</p>
+        {% else %}
+            <p class="status" style="color: #FFC107; font-size: 14px; font-weight: bold;">На ремонте</p>
+        {% endif %}
+
+        <h3>Бокс {{ box.number }}</h3>
+
+        <div class="box-card__footer">
+            <span>от 3 500 руб./мес.</span>
+            <span>{{ box.volume|floatformat:2 }} м³</span>
+        </div>
+
+        {% if box.status == 'free' %}
+            <a href="{% url 'box_detail' box.id %}" class="btn btn--primary" style="margin-top:16px; width: 100%;">Подробнее</a>
+        {% else %}
+            <button class="btn" style="margin-top:16px; width: 100%; background: #ccc; color: #666; cursor: not-allowed;" disabled>Недоступен</button>
+        {% endif %}
+
+    </div>
+</article>
+{% empty %}
+<p style="font-size: 18px;">По вашему запросу ничего не найдено.</p>
+{% endfor %}
