@@ -1,19 +1,59 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<div class="container" style="padding: 80px 0;">
-    <h1>Личный кабинет</h1>
-    <table style="width:100%; text-align:left; border-collapse: collapse; margin-top:20px;">
-        <tr style="border-bottom: 2px solid #ccc;">
-            <th>Номер</th><th>Бокс</th><th>Клиент</th><th>Дата</th>
-        </tr>
-        {% for contract in contracts %}
-        <tr style="border-bottom: 1px solid #eee;">
-            <td>{{ contract.id }}</td>
-            <td>{{ contract.box.number }}</td>
-            <td>{{ contract.client.user.username }}</td>
-            <td>{{ contract.start_date|date:"d.m.Y" }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+<section class="container" style="padding-top: 60px; padding-bottom: 60px;">
+    <h1 style="margin-bottom: 40px;">Личный кабинет</h1>
+
+    <div class="page-layout">
+        <div class="sidebar-layout">
+            <a href="#" style="background: var(--primary); color: white;">Мои боксы</a>
+            <a href="#">Личные данные</a>
+            <a href="#">Способы оплаты</a>
+            <a href="{% url 'login' %}">Выйти</a>
+        </div>
+
+        <div class="main-content-layout" style="flex: 3;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2>Мои боксы</h2>
+                <a href="{% url 'catalog' %}" class="btn btn--primary" style="padding: 12px 24px;">Добавить бокс</a>
+            </div>
+
+            <div style="background: var(--bg-card); padding: 24px; border-radius: 8px; margin-bottom: 40px;">
+                <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+                    <img src="{% static 'images/box-placeholder.jpg' %}" alt="Бокс" style="width: 120px; border-radius: 8px;">
+                    <div style="flex: 1;">
+                        <p style="color: var(--success); font-size: 14px; margin-bottom: 8px;">Активен</p>
+                        <h3 style="margin-bottom: 8px;">Бокс A-117</h3>
+                        <p style="font-size: 14px; margin-bottom: 4px;">Адрес склада</p>
+                        <p style="font-size: 14px;">Аренда до: 15 апреля 2026</p>
+                    </div>
+                    <div style="text-align: right; min-width: 150px;">
+                        <p style="font-size: 14px; margin-bottom: 4px;">Следующий платёж</p>
+                        <p style="font-weight: bold; font-size: 18px;">7 500 руб.</p>
+                        <p style="font-size: 14px;">15 марта</p>
+                    </div>
+                </div>
+                <hr style="border: 0; border-top: 1px solid #999; margin: 20px 0;">
+                <a href="#" class="btn btn--primary" style="padding: 12px 24px;">Продлить аренду</a>
+            </div>
+
+            <h2 style="margin-bottom: 24px;">История операций</h2>
+            <div style="background: var(--bg-card); border-radius: 8px; overflow: hidden;">
+                <div style="display: flex; background: var(--primary); color: white; padding: 16px; font-weight: bold;">
+                    <div style="flex: 1;">Дата</div>
+                    <div style="flex: 2;">Операция</div>
+                    <div style="flex: 1;">Сумма</div>
+                    <div style="flex: 1;">Статус</div>
+                </div>
+                <div style="display: flex; padding: 16px; border-bottom: 1px solid #999;">
+                    <div style="flex: 1;">00.00.2026</div>
+                    <div style="flex: 2;">Оплата аренды</div>
+                    <div style="flex: 1;">7 500 руб.</div>
+                    <div style="flex: 1;">Оплачено</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

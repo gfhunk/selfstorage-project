@@ -2,50 +2,49 @@
 {% load static %}
 
 {% block content %}
-<section class="container" style="padding: 60px 0;">
-    <div style="display: flex; gap: 40px;">
-        <div style="flex: 2;">
-            <img src="{% static 'images/hero-bg.jpg' %}" alt="Фото бокса" style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
-            <div style="display: flex; gap: 20px;">
-                <img src="{% static 'images/hero-bg.jpg' %}" alt="Фото 2" style="width: 31%; border-radius: 8px;">
-                <img src="{% static 'images/hero-bg.jpg' %}" alt="Фото 3" style="width: 31%; border-radius: 8px;">
-                <img src="{% static 'images/hero-bg.jpg' %}" alt="Фото 4" style="width: 31%; border-radius: 8px;">
+<section class="container" style="padding-top: 60px; padding-bottom: 60px;">
+    <div class="box-detail-layout">
+        <div class="main-content-layout" style="flex: 2;">
+            <img src="{% static 'images/box-placeholder.jpg' %}" alt="Фото бокса" style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
+            <div style="display: flex; gap: 20px; margin-bottom: 40px;">
+                <img src="{% static 'images/box-placeholder.jpg' %}" alt="Фото 2" style="width: 31%; border-radius: 8px;">
+                <img src="{% static 'images/box-placeholder.jpg' %}" alt="Фото 3" style="width: 31%; border-radius: 8px;">
+                <img src="{% static 'images/box-placeholder.jpg' %}" alt="Фото 4" style="width: 31%; border-radius: 8px;">
             </div>
 
-            <h2 style="margin-top: 40px; font-size: 32px;">О боксе</h2>
+            <h2 style="font-size: 32px; margin-bottom: 16px;">О боксе</h2>
             <p style="margin-bottom: 20px;">Сухой бокс под охраной 24/7. Внутри всегда чисто и сухо.</p>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <div style="background: #D4D6FD; padding: 16px; border-radius: 8px; width: 45%;">Площадь: 5 м²</div>
-                <div style="background: #D4D6FD; padding: 16px; border-radius: 8px; width: 45%;">Объём: {{ box.volume|floatformat:2 }} м³</div>
-                <div style="background: #D4D6FD; padding: 16px; border-radius: 8px; width: 45%;">Этаж: 1</div>
-                <div style="background: #D4D6FD; padding: 16px; border-radius: 8px; width: 45%;">Доступ: 24/7</div>
+
+            <div class="specs-grid">
+                <div class="spec-item">Площадь: 5 м²</div>
+                <div class="spec-item">Объём: {{ box.volume|floatformat:2 }} м³</div>
+                <div class="spec-item">Этаж: 1</div>
+                <div class="spec-item">Доступ: 24/7</div>
             </div>
         </div>
 
-        <div style="flex: 1;">
-            <div style="background: #C0CCEB; padding: 32px; border-radius: 8px;">
-                <p style="color: #198754; font-size: 14px; margin-bottom: 8px;">Доступен сейчас</p>
-                <h1 style="margin-bottom: 20px;">Бокс {{ box.number }}</h1>
-                <p style="margin-bottom: 20px;">Описание</p>
+        <div class="sidebar-layout" style="flex: 1; padding: 32px;">
+            <p style="color: var(--success); font-size: 14px; margin-bottom: 8px;">Доступен сейчас</p>
+            <h1 style="margin-bottom: 20px;">Бокс {{ box.number }}</h1>
+            <p style="margin-bottom: 20px;">Описание</p>
 
-                <hr style="border: 0; border-top: 1px solid #999; margin: 20px 0;">
+            <hr style="border: 0; border-top: 1px solid #999; margin: 20px 0;">
 
-                <label>Срок аренды</label>
-                <select style="width: 100%; padding: 12px; margin: 10px 0 20px 0; border: none; border-radius: 4px;">
-                    <option>1 месяц</option>
-                    <option>3 месяца</option>
-                </select>
+            <label>Срок аренды</label>
+            <select class="form-input">
+                <option>1 месяц</option>
+                <option>3 месяца</option>
+            </select>
 
-                <hr style="border: 0; border-top: 1px solid #999; margin: 20px 0;">
+            <hr style="border: 0; border-top: 1px solid #999; margin: 20px 0;">
 
-                <p>Стоимость</p>
-                <p style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">7 500 руб./мес.</p>
+            <p>Стоимость</p>
+            <p style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">7 500 руб./мес.</p>
 
-                <hr style="border: 0; border-top: 1px solid #999; margin: 20px 0;">
+            <hr style="border: 0; border-top: 1px solid #999; margin: 20px 0;">
 
-                <a href="{% url 'checkout' box.id %}" class="btn btn--primary" style="width: 100%; display: block; margin-bottom: 16px;">Забронировать</a>
-                <a href="{% url 'calculator' %}" class="btn" style="width: 100%; display: block; background: white; color: black;">Рассчитать другой вариант</a>
-            </div>
+            <a href="{% url 'checkout' box.id %}" class="btn btn--primary" style="width: 100%; margin-bottom: 16px;">Забронировать</a>
+            <a href="{% url 'calculator' %}" class="btn" style="width: 100%; background: white; color: black;">Рассчитать другой вариант</a>
         </div>
     </div>
 </section>
