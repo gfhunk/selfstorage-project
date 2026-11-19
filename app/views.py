@@ -10,6 +10,8 @@ from django.template.loader import render_to_string
 from datetime import date, timedelta
 import calendar
 from django.contrib.auth import logout
+import logging
+logger = logging.getLogger(__name__)
 
 def index(request):
     return render(request, 'index.html', {'title': 'SelfStorage — Место для ваших вещей'})
@@ -65,6 +67,7 @@ def catalog(request):
 
 
 def box_detail(request, box_id):
+    logger.debug(f"Запрос карточки бокса ID: {box_id}")
     box = get_object_or_404(Box, id=box_id)
 
     term = request.GET.get('term', '1')
@@ -175,6 +178,7 @@ def register(request):
 
 
 def checkout(request, box_id):
+    logger.info("Пользователь зашел на страницу оформления")
     box = get_object_or_404(Box, id=box_id)
     term = int(request.GET.get('term', 1))
 
@@ -210,23 +214,30 @@ def payment(request, box_id):
 
     if request.method == 'POST':
         if request.user.is_authenticated:
-            start = date.today()
-            end = start + timedelta(days=30 * term)
+            try:
 
-            Contract.objects.create(
+                start = date.today()
+                end = start + timedelta(days=30 * term)
+
+
+                Contract.objects.create(
                 client=request.user.client_profile,
                 box=box,
                 start_date=start,
                 end_date=end,
                 total_price=final_sum,
                 is_active=True
-            )
-            box.status = 'busy'
-            box.save()
-            messages.success(request, 'Оплата прошла успешно!')
-            return redirect('profile')
-        else:
-            return redirect('login')
+                )
+
+                box.status = 'busy'
+                box.save()
+
+                logger.info(f"Оплата прошла успешно, сумма {final_sum}")
+                messages.success(request, 'Оплата прошла успешно!')
+                return redirect('profile')
+            except Exception as e:
+             logger.error("Ошибка при создании договора")
+            messages.error(request, 'Произошла ошибка при сохранении. Попробуйте позже.')
 
     return render(request, 'payment.html', {'title': 'Оплата', 'box': box, 'term': term, 'total_rent': final_sum})
 
@@ -242,6 +253,7 @@ def user_login(request):
                 login(request, user)
                 return redirect('profile')
             else:
+                logger.warning(f"Неудачная попытка входа: {username}")
                 messages.error(request, 'Неверный логин или пароль')
     else:
         form = UserLoginForm()
