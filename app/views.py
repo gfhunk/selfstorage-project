@@ -213,6 +213,7 @@ def payment(request, box_id):
         final_sum = price_per_month * term
 
     if request.method == 'POST':
+
         if request.user.is_authenticated:
             try:
 
