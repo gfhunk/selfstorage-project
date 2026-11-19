@@ -88,23 +88,25 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.querySelector('input[name="q"]');
+        const searchInput = document.getElementById('search-input');
+        if (!searchInput) return;
 
-        if (searchInput) {
-            searchInput.addEventListener('input', function(e) {
-                const query = e.target.value;
-                const container = document.getElementById('catalog-container');
+        let timeout = null;
 
-                container.innerHTML = '<p style="font-size: 18px;">Поиск...</p>';
+        searchInput.addEventListener('input', function(e) {
+            clearTimeout(timeout);
+            const query = e.target.value;
+            const container = document.getElementById('catalog-container');
 
+            container.innerHTML = '<p style="font-size: 18px;">Загрузка...</p>';
+
+            timeout = setTimeout(() => {
                 fetch(`/api/catalog/?q=${encodeURIComponent(query)}`)
                     .then(response => response.json())
                     .then(data => {
                         container.innerHTML = data.html;
-                        document.getElementById('search-count').innerText = `Найдено ${data.count} боксов`;
-                    })
-                    .catch(error => console.error('Ошибка:', error));
-            });
-        }
+                    });
+            }, 300);
+        });
     });
 </script>

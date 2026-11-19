@@ -1,0 +1,6 @@
+INFO 2026-11-19 23:19:21,383 autoreload Watching for file changes with StatReloader
+INFO 2026-11-19 23:20:00,771 views Пользователь зашел на страницу оформления
+INFO 2026-11-19 23:20:25,622 views Оплата прошла успешно, сумма 8220
+INFO 2026-11-19 23:20:49,700 views Пользователь зашел на страницу оформления
+INFO 2026-11-19 23:21:54,880 views Оплата прошла успешно, сумма 5135
+WARNING 2026-11-19 23:24:16,624 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
