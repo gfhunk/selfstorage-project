@@ -207,7 +207,7 @@ def payment(request, box_id):
     total_param = request.GET.get('total')
 
     if total_param and total_param.isdigit():
-        final_sum = int(total_param)
+     final_sum = int(total_param)
     else:
         price_per_month = int(float(box.volume) * 1500)
         final_sum = price_per_month * term
