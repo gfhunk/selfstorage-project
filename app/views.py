@@ -177,7 +177,7 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form, 'title': 'Регистрация'})
 
-
+# Fix BUG-03: Единый расчет цены
 def checkout(request, box_id):
     box = get_object_or_404(Box, id=box_id)
     term = int(request.GET.get('term', 1))
