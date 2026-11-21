@@ -30,7 +30,7 @@
 
                 <form method="post">
                     {% csrf_token %}
-
+<!-- Fix BUG-04: Маска для карты -->
                     <div style="margin-bottom: 20px;">
     <label>Номер карты</label>
     <input type="text" id="card-number" placeholder=".... .... .... ...." class="form-input" maxlength="19" oninput="this.value = this.value.replace(/[^0-9 ]/g, '').replace(/(.{4})/g, '$1 ').trim();" required>
