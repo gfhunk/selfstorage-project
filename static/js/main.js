@@ -1,3 +1,4 @@
+//Fix BUG-06: Закрытие бургера
 document.addEventListener('DOMContentLoaded', () => {
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav');
