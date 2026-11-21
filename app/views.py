@@ -160,6 +160,7 @@ def calculator(request):
     }
     return render(request, 'calculator.html', context)
 
+# Fix BUG-01: Проверка на существующий email
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -178,12 +179,10 @@ def register(request):
 
 
 def checkout(request, box_id):
-    logger.info("Пользователь зашел на страницу оформления")
     box = get_object_or_404(Box, id=box_id)
     term = int(request.GET.get('term', 1))
 
     price_per_month = int(float(box.volume) * 1500)
-
     if term == 3:
         price_per_month = int(price_per_month * 0.95)
     elif term == 6:
@@ -195,6 +194,7 @@ def checkout(request, box_id):
         'title': 'Оформление бронирования',
         'box': box,
         'term': term,
+        'price_per_month': price_per_month,
         'total_rent': total_rent
     }
     return render(request, 'checkout.html', context)

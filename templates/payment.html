@@ -32,24 +32,23 @@
                     {% csrf_token %}
 
                     <div style="margin-bottom: 20px;">
-                        <label>Номер карты</label>
-                        <input type="text" placeholder=".... .... .... ...." class="form-input" required>
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label>Имя на карте</label>
-                        <input type="text" placeholder="Введите имя" class="form-input" required>
-                    </div>
-
-                    <div class="form-row" style="margin-bottom: 32px;">
-                        <div>
-                            <label>Срок действия</label>
-                            <input type="text" placeholder="ДД.ГГГГ" class="form-input" required>
-                        </div>
-                        <div>
-                            <label>CVC/CVV</label>
-                            <input type="password" placeholder="..." class="form-input" required>
-                        </div>
-                    </div>
+    <label>Номер карты</label>
+    <input type="text" id="card-number" placeholder=".... .... .... ...." class="form-input" maxlength="19" oninput="this.value = this.value.replace(/[^0-9 ]/g, '').replace(/(.{4})/g, '$1 ').trim();" required>
+</div>
+<div style="margin-bottom: 20px;">
+    <label>Имя на карте</label>
+    <input type="text" placeholder="Введите имя" class="form-input" pattern="^[A-Za-z\s]+$" title="Только латинские буквы" required>
+</div>
+<div class="form-row" style="margin-bottom: 32px;">
+    <div>
+        <label>Срок действия</label>
+        <input type="text" placeholder="ММ/ГГ" class="form-input" maxlength="5" oninput="this.value = this.value.replace(/[^0-9/]/g, '');" required>
+    </div>
+    <div>
+        <label>CVC/CVV</label>
+        <input type="password" placeholder="..." class="form-input" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+    </div>
+</div>
 
                     <button type="submit" class="btn btn--primary" style="width: 100%;">Подтвердить</button>
                 </form>
