@@ -281,7 +281,7 @@ def profile_data(request):
 def payment_history(request):
     return render(request, 'payment_history.html', {'title': 'Способы оплаты'})
 
-
+# Fix BUG-08: Редирект при выходе
 def user_logout(request):
     logout(request)
     return redirect('home')
