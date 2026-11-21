@@ -20,3 +20,4 @@ urlpatterns = [
     path('profile/data/', views.profile_data, name='profile_data'),
     path('profile/payments/', views.payment_history, name='payment_history'),
 ]
+#Fix BUG-07: Маршрут для оплаты
